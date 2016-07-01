@@ -1,1 +1,1 @@
-__all__ = [ "bwmorph_thin", "feature_extraction" ]
+__all__ = [ "feature_extraction" ]

@@ -22,7 +22,7 @@ def main():
     pre_processor = preprocessing.PreProcessFingerImage(args.image_path)
     pre_processor.process_image()
     image = pre_processor.get_preprocessed_image()
-    image = fft_enchance_image.enhance_image(image,30,0,0.35)
+    image = fft_enchance_image.enhance_image(image,25,0,0.222)
 
     for t in np.arange(1,255,10):
         image_binarized = binarization(image,t)
