@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import image_process_utils
+import frequency_filters
 import argparse
 
 class PreProcessFingerImage():
@@ -26,7 +27,8 @@ class PreProcessFingerImage():
         image_pre = clahe.apply(image_pre)
 
         self.image_pre = image_pre
-
+    def get_original_image(self):
+        return self.image
     def get_preprocessed_image(self):
         return self.image_pre
 
@@ -45,7 +47,7 @@ def main():
     pre_processor = PreProcessFingerImage(args.image_path)
     pre_processor.process_image()
     image = pre_processor.get_preprocessed_image()
-    
+
     cv2.imshow('Pre Processed Image', image)
     cv2.waitKey()
 

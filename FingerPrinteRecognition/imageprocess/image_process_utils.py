@@ -20,7 +20,13 @@ def block_process(a, blocksize, filt, args):
                 filt(a[col:col + blocksize, row:row + blocksize], *args))
     return b
 
-
+def crop_image_sides( image, width ,height):
+     a = 1 + np.floor(image.shape[0] * width)
+     b = image.shape[0] - np.floor(image.shape[0] * width)
+     c = 1 + np.floor(image.shape[1] * height)
+     d = image.shape[1] - np.floor(image.shape[1] * height)
+     return image[a:b,c:d]
+     
 def crop_around_center(image, width, height):
     """
     Given a NumPy / OpenCV 2 image, crops it to the given width and height,

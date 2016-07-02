@@ -29,7 +29,7 @@ def generate_features_vectors(minuteas_array):
             features_vectors.append([prev_coord_x, prev_coord_y, d_next, ang])
         prev_coord_x = next_coord_x
         prev_coord_y = next_coord_y
-
+    #print len(features_vectors)
     return features_vectors
 
 

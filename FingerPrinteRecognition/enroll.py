@@ -21,6 +21,12 @@ def main():
 
     f = open('FeaturesDB/features.csv', 'ab')
 
+    # write header
+    header = 'label'
+    for k in range(4 * 18):
+        header += ',' + str(k)
+    f.write(header + '\n')
+
     features_vectors_total = []
     for (dirpath, dirnames, filenames) in walk(args.path):
         for filename in filenames:
@@ -36,11 +42,11 @@ def main():
             features_vector = feature_extraction.generate_features_vectors(
                 minuteas_array)
 
-            image_features = label + ','
-            for i in range(15):
-                print i
-                image_features += '{},{},{},{}'.format(
+            image_features = label
+            for i in range(18):
+                image_features += ',{},{},{},{}'.format(
                     features_vector[i][0], features_vector[i][1], features_vector[i][2], features_vector[i][3])
+
             f.write(image_features + '\n')
 
     f.close()
