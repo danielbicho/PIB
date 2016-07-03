@@ -3,6 +3,21 @@ import cv2
 import argparse
 import preprocessing
 
+
+def blpf(fimage, thresh, n):
+    d = np.zeros_like(fimage)
+    h = np.zeros_like(fimage)
+
+    r = fimage.shape[0]
+    c = fimage.shape[1]
+    for i in range(r):
+        for j in range(c):
+            d[i,j] = np.sqrt((i - r/2)**2 + (j - c/2)**2)
+            h[i,j] = 1 / (1 + (d[i,j]/thresh)**(2 * n))
+
+    res = h * fimage
+    return res
+
 def low_pass_filter(image, freq_cut):
     dft = cv2.dft(np.float32(image),flags = cv2.DFT_COMPLEX_OUTPUT)
     radius = freq_cut
@@ -40,11 +55,10 @@ def main():
 
     args = parser.parse_args()
 
-
-
     pre_processor = preprocessing.PreProcessFingerImage(args.image_path)
     pre_processor.process_image()
     image = pre_processor.get_preprocessed_image()
+
     cv2.imshow('Control Image',image)
     cv2.waitKey()
 

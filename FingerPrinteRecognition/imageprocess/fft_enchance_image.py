@@ -25,7 +25,6 @@ def enhance_image(image, window, overlap, k):
 
     return image_enhanced
 
-
 def main():
     parser = argparse.ArgumentParser(
         description='Enhance fingerprint image with diferent parameters.')
@@ -36,7 +35,7 @@ def main():
 
     pre_processor = preprocessing.PreProcessFingerImage(args.image_path)
     pre_processor.process_image()
-    image = pre_processor.get_preprocessed_image()
+    image = pre_processor.get_preprocessed_image()    
 
     for k in np.linspace(0, 2, 10):
         for window in [10, 15, 20, 25, 35, 40, image.shape[0]]:

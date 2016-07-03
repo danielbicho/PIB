@@ -39,11 +39,9 @@ def gabor_enhance_image(image, ksize, sigma, lambd, gamma):
     theta = [0, 11.2500, 22.5000, 33.7500, 45, 56.2500, 67.5000, 78.7500,
              90, 101.2500, 112.5000, 123.7500, 135, 146.2500, 157.5000, 168.7500]
 
-    image_filtered =  np.float32(image)
-    print image_filtered[0:10,0:10]
+    image_filtered =  np.float32(image)    
     #for theta in np.arange(0, np.pi, np.pi / 32):
     for i in np.arange(0,len(theta),2):
-        print theta[i]
         #kernel = cv2.getGaborKernel(
         #    (ksize, ksize), sigma, theta[i], lambd, gamma)
         #fimage = cv2.filter2D(image, cv2.CV_8U, kernel)
@@ -58,11 +56,7 @@ def gabor_enhance_image(image, ksize, sigma, lambd, gamma):
         #image_filtered *= 255 / image_filtered.max()
         image_filtered = overlay_images(image_filtered, fimage)
         #np.maximum(image_filtered, fimage, image_filtered)
-
         ###############
-
-        cv2.imshow('Gabor contributions', fimage)
-        cv2.waitKey()
 
     #image_filtered *= 255.0 / image_filtered.max()
 

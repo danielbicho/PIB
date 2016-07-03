@@ -46,7 +46,7 @@ def minuteas_extraction(image):
     clone = cv2.merge((clone, clone, clone))
 
     # alterar o stepSize
-    for (x, y, window) in image_process_utils.sliding_window(1 - image_thinned * 1, stepSize=3, windowSize=(3, 3)):
+    for (x, y, window) in image_process_utils.sliding_window(1 - image_thinned * 1, stepSize=1, windowSize=(3, 3)):
         # if the window does not meet our desired window size, ignore it
         if window.shape[0] != 3 or window.shape[1] != 3:
             continue

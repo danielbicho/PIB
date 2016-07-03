@@ -1,6 +1,16 @@
 import cv2
 import numpy as np
 
+def unsharp_masking(image, k):
+
+    image_filtered = cv2.GaussianBlur(image,(7,7),1)
+    cv2.imshow('blured', image_filtered)
+    mask = image - image_filtered
+    cv2.imshow('mask', mask)
+    image_result = image + k * mask
+    return image_result
+
+
 
 def block_process_overlap(a, blocksize, overlap, filt, args):
     b = np.empty(a.shape)
@@ -21,12 +31,12 @@ def block_process(a, blocksize, filt, args):
     return b
 
 def crop_image_sides( image, width ,height):
-     a = 1 + np.floor(image.shape[0] * width)
-     b = image.shape[0] - np.floor(image.shape[0] * width)
-     c = 1 + np.floor(image.shape[1] * height)
-     d = image.shape[1] - np.floor(image.shape[1] * height)
+     a = int(1 + np.floor(image.shape[0] * width))
+     b = int(image.shape[0] - np.floor(image.shape[0] * width))
+     c = int(1 + np.floor(image.shape[1] * height))
+     d = int(image.shape[1] - np.floor(image.shape[1] * height))
      return image[a:b,c:d]
-     
+
 def crop_around_center(image, width, height):
     """
     Given a NumPy / OpenCV 2 image, crops it to the given width and height,
