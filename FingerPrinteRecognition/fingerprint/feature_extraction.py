@@ -29,7 +29,7 @@ def generate_features_vectors(minuteas_array):
             features_vectors.append([prev_coord_x, prev_coord_y, d_next, ang])
         prev_coord_x = next_coord_x
         prev_coord_y = next_coord_y
-    #print len(features_vectors)
+    # print len(features_vectors)
     return features_vectors
 
 
@@ -51,7 +51,7 @@ def minuteas_extraction(image):
         if window.shape[0] != 3 or window.shape[1] != 3:
             continue
 
-        if (window[1, 1] == 0) and (np.sum(window) <= 5) and (np.sum(minuteas_matrix[x:x + 4, y:y + 4] == 0)):
+        if (window[1, 1] == 0) and (np.sum(window) <= 5) and (np.sum(minuteas_matrix[x - 1:x + 1, y - 1:y + 1] == 0)):
             minuteas_matrix[x + 1, y + 1] = 1
             minuteas.append(np.array([x + 1, y + 1]))
 

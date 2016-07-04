@@ -4,6 +4,7 @@ import image_process_utils
 import frequency_filters
 import argparse
 
+
 class PreProcessFingerImage():
 
     def __init__(self, image_path):
@@ -24,10 +25,11 @@ class PreProcessFingerImage():
         dft_shift = np.fft.fftshift(dft)
         dft_filtered = frequency_filters.blpf(dft_shift, 70, 20)
         f_ishift = np.fft.ifftshift(dft_filtered)
-        image_pre = cv2.idft(f_ishift, flags=cv2.DFT_SCALE | cv2.DFT_REAL_OUTPUT)
+        image_pre = cv2.idft(
+            f_ishift, flags=cv2.DFT_SCALE | cv2.DFT_REAL_OUTPUT)
 
         # convert to uint8
-        image_pre = cv2.convertScaleAbs(image_pre)
+        #image_pre = cv2.convertScaleAbs(image_pre)
 
         # contrast streching
         image_pre = image_process_utils.contrast_streching(image_pre)
@@ -36,14 +38,14 @@ class PreProcessFingerImage():
         #image_pre = cv2.equalizeHist(image_pre)
 
         # adptative histogram equalizer
-        clahe = cv2.createCLAHE()
-        image_pre = clahe.apply(image_pre)
+        #clahe = cv2.createCLAHE()
+        #image_pre = clahe.apply(image_pre)
 
         self.image_pre = image_pre
 
-
     def get_original_image(self):
         return self.image
+
     def get_preprocessed_image(self):
         return self.image_pre
 
