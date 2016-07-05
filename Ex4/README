@@ -1,0 +1,7 @@
+O código do exercicio 4 encontra-se no módulo FingerPrintRecognition.
+
+O comando $> python FingerPrinterRecognition/benchmark.py FingerPrintDB/
+
+Corre todo o procedimento, desde a melhoria de imagem até a detecção de minuceas.
+
+

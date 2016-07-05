@@ -1,5 +1,8 @@
 # folder relatorio
 Relatorio/
+Entregar/
+FingerPrintRecognition/processed_images_results/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
