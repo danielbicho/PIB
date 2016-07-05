@@ -35,9 +35,7 @@ def main():
             cv2.imwrite('processed_images_results/' +
                         str(filename) + '_preprocessing.jpg', image, [int(cv2.IMWRITE_JPEG_QUALITY), 90])
 
-            # inverter para trabalhar nas cristas
-            image_gabor = gabor_enhance_image.gabor_enhance_image(
-                image, 3, 3.9, 8.9, 1.4)
+            image_gabor = gabor_enhance_image.gabor_enhance_image(image, 3, 3.9, 8.9, 1.4)
             #cv2.normalize(image_gabor,image_gabor, alpha=0, beta=255, dtype=cv2.CV_8UC1)
 
             cv2.imshow('Gabor Enhanced Image', image_gabor)
@@ -51,25 +49,27 @@ def main():
             cv2.imwrite('processed_images_results/' +
                         str(filename) + '_fft.jpg', image_fft, [int(cv2.IMWRITE_JPEG_QUALITY), 90])
 
-            #image_fft = image_binarization.binarization(image_fft, 170)
-            image_fft = image_process_utils.block_process_overlap(
-                image, 25, 0, cv2.adaptiveThreshold, (255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,25,-1,))
+            image_fft = image_binarization.binarization(image_fft, 170)
+            #image_fft = image_process_utils.block_process_overlap(
+            #    image, 25, 0, cv2.adaptiveThreshold, (255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,25,-1,))
+            cv2.imshow('FFT Enhanced Image', image_fft)
 
+            #########
             # Countour fillling
-            des = cv2.bitwise_not(image_fft.astype('uint8'))
-            contour,hier = cv2.findContours(des,cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)[-2:]
+            #des = cv2.bitwise_not(image_fft.astype('uint8'))
+            #contour,hier = cv2.findContours(des,cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)[-2:]
+            #for cnt in contour:
+            #    cv2.drawContours(des,[cnt],0,255,-1)
+            #image_fft = cv2.bitwise_not(des)
+            #########
 
-            for cnt in contour:
-                cv2.drawContours(des,[cnt],0,255,-1)
-
-            image_fft = cv2.bitwise_not(des)
+            #########
             # Opening Image
             # kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))
             # image_fft = cv2.morphologyEx(image_fft,cv2.MORPH_OPEN,kernel)
+            #########
 
-            cv2.imshow('FFT Enhanced Image', image_fft)
             image_result = image_gabor + image_fft
-
             for i in range(image_result.shape[0]):
                 for j in range(image_result.shape[1]):
                     if (image_result[i, j] > 255):
@@ -80,7 +80,6 @@ def main():
             cv2.imshow('Result Enhanced Image', image_result)
 
             # TODO Testar tecnicas de pos-processamento
-
             image = image_binarization.binarization(image_result, 170)
             cv2.imshow('binarization', image)
 
@@ -95,6 +94,7 @@ def main():
                         str(filename) + '_thinned.jpg', image)
 
             minuteas_array = feature_extraction.minuteas_extraction(image)
+
             # convert image to 3 channel
             image_color = cv2.merge((image, image, image))
 

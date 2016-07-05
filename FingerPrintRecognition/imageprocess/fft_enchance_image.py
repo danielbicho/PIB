@@ -35,16 +35,21 @@ def main():
 
     pre_processor = preprocessing.PreProcessFingerImage(args.image_path)
     pre_processor.process_image()
-    image = pre_processor.get_preprocessed_image()
+    image_pre = pre_processor.get_preprocessed_image()
 
-    gaussian_3 = cv2.GaussianBlur(image, (9,9), 10.0)
-    unsharp_image = cv2.addWeighted(image, 1.5, gaussian_3, -0.5, 0, image)
-    
+    #gaussian_3 = cv2.GaussianBlur(image, (9,9), 10.0)
+    #unsharp_image = cv2.addWeighted(image, 1.5, gaussian_3, -0.5, 0, image)
 
+    dft = cv2.dft(np.float32(image_pre), flags=cv2.DFT_COMPLEX_OUTPUT)
+    dft_shift = np.fft.fftshift(dft)
+    dft_filtered = preprocessing.frequency_filters.blpf(dft_shift, 70, 20)
+    f_ishift = np.fft.ifftshift(dft_filtered)
+    image_pre = cv2.idft(
+        f_ishift, flags=cv2.DFT_SCALE | cv2.DFT_REAL_OUTPUT)
 
-    for k in np.linspace(0, 2, 10):
-        for window in [10, 15, 20, 25, 35, 40, image.shape[0]]:
-            image_fft = enhance_image(image, window, 0, k)
+    for k in np.linspace(0, 2, 5):
+        for window in [20, 25, 35, 40, image_pre.shape[0]]:
+            image_fft = enhance_image(image_pre, window, 2, k)
             cv2.imshow('FF Enhanced Image with k=' + str(k) +
                        ' window=' + str(window), image_fft)
             cv2.waitKey()

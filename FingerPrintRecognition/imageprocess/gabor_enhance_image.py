@@ -87,11 +87,11 @@ def main():
     cv2.imshow('Image Pre Processed', image)
     cv2.waitKey()
 
-    image_enhanced = gabor_enhance_image(image, 3, 3.9, 8.9, 1.4)
-
-    cv2.imshow('Last Gabor filtered image', image_enhanced)
-    cv2.waitKey()
-    cv2.destroyAllWindows()
+    for i in np.arange(3,8,0.2):
+        #image_enhanced = gabor_enhance_image(image, 3, 3.9, 8.9, 1.4)
+        image_enhanced = gabor_enhance_image(image, 3, i, 8.9, 1.4)
+        cv2.imshow('i = ' + str(i), image_enhanced)
+        cv2.waitKey()
 
 
 if __name__ == '__main__':

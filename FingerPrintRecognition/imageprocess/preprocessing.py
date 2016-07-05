@@ -21,8 +21,14 @@ class PreProcessFingerImage():
         #image_pre = image_process_utils.crop_image_sides( image_pre, 0, 0.12)
 
         # contrast streching
-        #image_pre = image_process_utils.contrast_streching(image_pre)
+        image_pre = image_process_utils.contrast_streching(image_pre)
 
+        ########
+        # Unsharp Masking
+        #gaussian = cv2.GaussianBlur(image_pre, (5,5), 1)
+        #mask = image_pre - gaussian;
+        #image_pre = image_pre + 5 * mask;
+        ########
 
         # histogram equalizer
         #image_pre = cv2.equalizeHist(image_pre)
@@ -39,7 +45,7 @@ class PreProcessFingerImage():
         #image_pre = cv2.convertScaleAbs(image_pre)
 
         # contrast streching
-        image_pre = image_process_utils.contrast_streching(image_pre)
+        #image_pre = image_process_utils.contrast_streching(image_pre)
 
 
         # adptative histogram equalizer
