@@ -51,7 +51,10 @@ def minuteas_extraction(image):
         if window.shape[0] != 3 or window.shape[1] != 3:
             continue
 
-        if (window[1, 1] == 0) and (np.sum(window) <= 5) and (np.sum(minuteas_matrix[x - 1:x + 1, y - 1:y + 1] == 0)):
+
+        if (window[1, 1] == 0) and (np.sum(window) <= 5) and np.sum(minuteas_matrix[x:x+3,y:y+3]) == 0:
+        #    print str(minuteas_matrix[x + 1,y + 1])
+        #    print "Coordenada X: %s, Y: %s" % (x + 1, y + 1)
             minuteas_matrix[x + 1, y + 1] = 1
             minuteas.append(np.array([x + 1, y + 1]))
 

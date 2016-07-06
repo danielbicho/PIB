@@ -97,7 +97,7 @@ def main():
 
             # convert image to 3 channel
             image_color = cv2.merge((image, image, image))
-
+            print 'Number of minuteas: %s' %(len(minuteas_array))
             for minutea in minuteas_array:
                 cv2.rectangle(image_color, (minutea[0] - 2, minutea[1] - 2), (minutea[
                               0] + 2, minutea[1] + 2), (0, 255, 0), 1)
