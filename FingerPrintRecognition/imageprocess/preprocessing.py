@@ -42,15 +42,15 @@ class PreProcessFingerImage():
             f_ishift, flags=cv2.DFT_SCALE | cv2.DFT_REAL_OUTPUT)
 
         # convert to uint8
-        #image_pre = cv2.convertScaleAbs(image_pre)
+        image_pre = cv2.convertScaleAbs(image_pre)
 
         # contrast streching
         #image_pre = image_process_utils.contrast_streching(image_pre)
 
 
         # adptative histogram equalizer
-        #clahe = cv2.createCLAHE()
-        #image_pre = clahe.apply(image_pre)
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(3,3))
+        image_pre = clahe.apply(image_pre)
 
         self.image_pre = image_pre
 

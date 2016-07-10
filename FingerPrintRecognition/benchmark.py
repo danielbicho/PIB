@@ -26,9 +26,10 @@ def main():
             pre_processor = preprocessing.PreProcessFingerImage(
                 image_path)
 
+
             # display original image
             original_image = pre_processor.get_original_image()
-            cv2.imshow('O' + str(filename), original_image)
+            #cv2.imshow('O' + str(filename), original_image)
 
             pre_processor.process_image()
             image = pre_processor.get_preprocessed_image()
@@ -38,7 +39,7 @@ def main():
             image_gabor = gabor_enhance_image.gabor_enhance_image(image, 3, 3.9, 8.9, 1.4)
             #cv2.normalize(image_gabor,image_gabor, alpha=0, beta=255, dtype=cv2.CV_8UC1)
 
-            cv2.imshow('Gabor Enhanced Image', image_gabor)
+            #cv2.imshow('Gabor Enhanced Image', image_gabor)
             cv2.imwrite('processed_images_results/' +
                         str(filename) + '_gabor.jpg', image, [int(cv2.IMWRITE_JPEG_QUALITY), 90])
 
@@ -46,13 +47,18 @@ def main():
                 image, 25, 0, 0.444) # 0.444s
             # image, image.shape[0], 0, 0.15)
 
+            clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(3,3))
+            image_fft = clahe.apply(image_fft)
+
             cv2.imwrite('processed_images_results/' +
                         str(filename) + '_fft.jpg', image_fft, [int(cv2.IMWRITE_JPEG_QUALITY), 90])
 
+#            image_fft = cv2.GaussianBlur(image_fft, (5,5), 1)
             image_fft = image_binarization.binarization(image_fft, 170)
             #image_fft = image_process_utils.block_process_overlap(
-            #    image, 25, 0, cv2.adaptiveThreshold, (255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,25,-1,))
+            #    image_fft, 25, 0, cv2.adaptiveThreshold, (255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,25,-1,))
             cv2.imshow('FFT Enhanced Image', image_fft)
+
 
             #########
             # Countour fillling
@@ -77,11 +83,11 @@ def main():
                     else:
                         image_result[i, j] = 0
 
-            cv2.imshow('Result Enhanced Image', image_result)
+            #cv2.imshow('Result Enhanced Image', image_result)
 
             # TODO Testar tecnicas de pos-processamento
             image = image_binarization.binarization(image_result, 170)
-            cv2.imshow('binarization', image)
+            #cv2.imshow('binarization', image)
 
 
             cv2.imwrite('processed_images_results/' +
@@ -89,7 +95,7 @@ def main():
 
             image = bwmorph_thin.bwmorph_thin(1 - image / 255, 20)
             image = (255 - image * 255).astype('uint8')
-            cv2.imshow(filename, image)
+            #cv2.imshow(filename, image)
             cv2.imwrite('processed_images_results/' +
                         str(filename) + '_thinned.jpg', image)
 
@@ -102,11 +108,11 @@ def main():
                 cv2.rectangle(image_color, (minutea[0] - 2, minutea[1] - 2), (minutea[
                               0] + 2, minutea[1] + 2), (0, 255, 0), 1)
 
-            cv2.imshow('Features Detected', image_color)
+            cv2.imshow('Features Detected' + image_path, image_color)
             cv2.imwrite('processed_images_results/' +
                         str(filename) + '_features.jpg', image_color, [int(cv2.IMWRITE_JPEG_QUALITY), 90])
             cv2.waitKey()
-            cv2.destroyAllWindows()
+            #cv2.destroyAllWindows()
 
 if __name__ == '__main__':
     main()

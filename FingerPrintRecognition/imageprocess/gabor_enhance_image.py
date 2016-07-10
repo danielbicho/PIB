@@ -84,14 +84,16 @@ def main():
     pre_processor.process_image()
     image = pre_processor.get_preprocessed_image()
 
-    cv2.imshow('Image Pre Processed', image)
+    original_image = pre_processor.get_original_image()
+    cv2.imshow('O', original_image)
     cv2.waitKey()
 
-    for i in np.arange(3,8,0.2):
-        #image_enhanced = gabor_enhance_image(image, 3, 3.9, 8.9, 1.4)
-        image_enhanced = gabor_enhance_image(image, 3, i, 8.9, 1.4)
-        cv2.imshow('i = ' + str(i), image_enhanced)
-        cv2.waitKey()
+    for j in np.arange(8,10,2):
+        for n in np.arange(0.1,10,1):
+            #image_enhanced = gabor_enhance_image(image, 3, 3.9, 8.9, 1.4)
+            image_enhanced = gabor_enhance_image(image, 3, 6, j, n)
+            cv2.imshow('j= ' + str(j) + ', n = ' + str(n), image_enhanced)
+            cv2.waitKey()
 
 
 if __name__ == '__main__':

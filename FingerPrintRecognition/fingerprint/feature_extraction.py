@@ -26,7 +26,7 @@ def generate_features_vectors(minuteas_array):
             ang = np.degrees(np.arctan2(b, a))
             # print "%s, %s, %0.1f, %0.2f" % (prev_coord_x, prev_coord_y,
             # d_next, ang)
-            features_vectors.append([prev_coord_x, prev_coord_y, d_next, ang])
+            features_vectors.append([d_next, ang, prev_coord_x, prev_coord_y])
         prev_coord_x = next_coord_x
         prev_coord_y = next_coord_y
     # print len(features_vectors)
