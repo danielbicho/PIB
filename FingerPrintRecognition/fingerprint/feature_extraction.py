@@ -1,5 +1,4 @@
 # TODO bad practise
-
 import sys
 sys.path.append("..")
 
@@ -18,11 +17,10 @@ def generate_features_vectors(minuteas_array):
         next_coord_x = minuteas_array[i][0]
         next_coord_y = minuteas_array[i][1]
         if (prev_coord_x != 0) and (prev_coord_y != 0):
-
             # generate feature
             a = next_coord_x - prev_coord_x
             b = next_coord_y - prev_coord_y
-            d_next = np.sqrt(a**2 + b**2)
+            d_next = np.sqrt(a ** 2 + b ** 2)
             ang = np.degrees(np.arctan2(b, a))
             # print "%s, %s, %0.1f, %0.2f" % (prev_coord_x, prev_coord_y,
             # d_next, ang)
@@ -33,28 +31,17 @@ def generate_features_vectors(minuteas_array):
     return features_vectors
 
 
-def minuteas_extraction(image):
-    # TODO  normalize image to 0s and 1s, handle that without forcing
-    image_thinned = bwmorph_thin.bwmorph_thin(1 - image / 255, 20)
-
-#    image_thinned_show = 255 - image_thinned * 255
-
+def minuteas_extraction(image_thinned):
     minuteas = []
-    minuteas_matrix = np.empty_like(image)
-
-    clone = 1 - image_thinned * 1
-    clone = cv2.merge((clone, clone, clone))
+    minuteas_matrix = np.zeros_like(image_thinned)
 
     # alterar o stepSize
-    for (x, y, window) in image_process_utils.sliding_window(1 - image_thinned * 1, stepSize=1, windowSize=(3, 3)):
+    for (x, y, window) in image_process_utils.sliding_window(image_thinned, stepSize=1, windowSize=(3, 3)):
         # if the window does not meet our desired window size, ignore it
         if window.shape[0] != 3 or window.shape[1] != 3:
             continue
 
-
-        if (window[1, 1] == 0) and (np.sum(window) <= 5) and np.sum(minuteas_matrix[x:x+3,y:y+3]) == 0:
-        #    print str(minuteas_matrix[x + 1,y + 1])
-        #    print "Coordenada X: %s, Y: %s" % (x + 1, y + 1)
+        if (window[1, 1] == 0) and (np.sum(window) <= 5) and np.sum(minuteas_matrix[x:x + 3, y:y + 3]) == 0:
             minuteas_matrix[x + 1, y + 1] = 1
             minuteas.append(np.array([x + 1, y + 1]))
 
@@ -81,7 +68,7 @@ def main():
 
     for minutea in minuteas_array:
         cv2.rectangle(image_color, (minutea[0], minutea[1]), (minutea[
-                      0] + 4, minutea[1] + 4), (0, 255, 0), 1)
+                                                                  0] + 4, minutea[1] + 4), (0, 255, 0), 1)
 
     features_vector = generate_features_vectors(minuteas_array)
     for vector in features_vector:
@@ -90,6 +77,7 @@ def main():
     cv2.imshow('Minuteas detected', image_color)
     cv2.waitKey()
     cv2.destroyAllWindows()
+
 
 if __name__ == '__main__':
     main()
