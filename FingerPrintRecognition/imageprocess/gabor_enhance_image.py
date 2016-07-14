@@ -15,7 +15,7 @@ def overlay_images(i1, i2):
 
 
 def gabor_fn(sigma, theta, lambd, psi, gamma):
-    """Wikioedia implementation of Gabor Filter."""
+    """Wikipedia implementation of Gabor Filter."""
 
     sigma_x = sigma
     sigma_y = float(sigma) / gamma
@@ -57,10 +57,8 @@ def gabor_enhance_image(image, ksize, sigma, lambd, gamma):
         # wiki implementation test
         gf = gabor_fn(sigma, theta[i], lambd, 0, gamma)
         fimage = cv2.filter2D(image, cv2.CV_32F, gf)
-
-        #image_filtered *= 255 / image_filtered.max()
         image_filtered = overlay_images(image_filtered, fimage)
-        #np.maximum(image_filtered, fimage, image_filtered)
+        #np.minimum(1image_filtered, fimage, image_filtered)
         ###############
 
     #image_filtered *= 255.0 / image_filtered.max()

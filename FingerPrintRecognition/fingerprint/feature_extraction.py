@@ -33,28 +33,18 @@ def generate_features_vectors(minuteas_array):
     return features_vectors
 
 
-def minuteas_extraction(image):
-    # TODO  normalize image to 0s and 1s, handle that without forcing
-    image_thinned = bwmorph_thin.bwmorph_thin(1 - image / 255, 20)
-
-#    image_thinned_show = 255 - image_thinned * 255
-
+def minuteas_extraction(image_thinned):
     minuteas = []
-    minuteas_matrix = np.empty_like(image)
-
-    clone = 1 - image_thinned * 1
-    clone = cv2.merge((clone, clone, clone))
+    minuteas_matrix = np.zeros_like(image_thinned)
 
     # alterar o stepSize
-    for (x, y, window) in image_process_utils.sliding_window(1 - image_thinned * 1, stepSize=1, windowSize=(3, 3)):
+    for (x, y, window) in image_process_utils.sliding_window(image_thinned, stepSize=1, windowSize=(3, 3)):
         # if the window does not meet our desired window size, ignore it
         if window.shape[0] != 3 or window.shape[1] != 3:
             continue
 
 
-        if (window[1, 1] == 0) and (np.sum(window) <= 5) and np.sum(minuteas_matrix[x:x+3,y:y+3]) == 0:
-        #    print str(minuteas_matrix[x + 1,y + 1])
-        #    print "Coordenada X: %s, Y: %s" % (x + 1, y + 1)
+        if (window[1, 1] == 0) and (np.sum(window) <= 5) and (np.sum(minuteas_matrix[x:x+3,y:y+3]) == 0):
             minuteas_matrix[x + 1, y + 1] = 1
             minuteas.append(np.array([x + 1, y + 1]))
 

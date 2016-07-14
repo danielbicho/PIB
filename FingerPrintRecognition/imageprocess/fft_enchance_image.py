@@ -18,6 +18,7 @@ def enhance_image(image, window, overlap, k):
         image, window, overlap, filter_fft, (k,))
 
     # Normalize values 0 a 255
+    print "FFT Minimum value: %s; Maximum value: %s" % (np.min(image_enhanced), np.max(image_enhanced))
     image_enhanced *= 255.0 / image_enhanced.max()
 
     # Convert for uint8
