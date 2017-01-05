@@ -1,4 +1,7 @@
-# Biometrics and Image processing experiments with python and opencv.
+# Biometrics and Image processing with python and opencv.
 
-- Color Filtering exercices and experiments
-- Fingerprint Biometric authentication application
+- Fingerprint Biometric authentication application (FFT enchancement, Gabor Filtering, Feature Extraction)
+- Image Enhancement and filtering, Spatial and Frequency filtering techniques
+
+
+
